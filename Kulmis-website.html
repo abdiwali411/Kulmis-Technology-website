@@ -1,0 +1,3364 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kulmis Technology Company</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           ROOT VARIABLES - LIGHT MODE (DEFAULT)
+           ============================================================ */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1a56db;
+            --primary-light: #60a5fa;
+            --primary-gradient: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+
+            /* Light mode variables */
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0f172a;
+            --bg-hover: #f1f5f9;
+            --bg-input: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --shadow-primary: 0 8px 32px rgba(37, 99, 235, 0.3);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+            --radius-full: 9999px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-height: 72px;
+            --container-padding: 24px;
+        }
+
+        /* ============================================================
+           DARK MODE VARIABLES
+           ============================================================ */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-sidebar: #020617;
+            --bg-hover: #334155;
+            --bg-input: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-primary: 0 8px 32px rgba(37, 99, 235, 0.2);
+        }
+
+        /* ============================================================
+           BASE STYLES
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            width: 100%;
+        }
+
+        /* ============================================================
+           THEME TOGGLER - TOP POSITION
+           ============================================================ */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: var(--radius-full);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-hover);
+            color: var(--primary);
+        }
+
+        .theme-toggle .toggle-track {
+            width: 40px;
+            height: 22px;
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+            position: relative;
+            transition: 0.3s;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle .toggle-track .toggle-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .theme-toggle .toggle-track {
+            background: var(--primary);
+        }
+
+        [data-theme="dark"] .theme-toggle .toggle-track .toggle-thumb {
+            left: 20px;
+        }
+
+        .theme-toggle .toggle-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ============================================================
+           TOP BAR
+           ============================================================ */
+        .top-bar {
+            background: var(--bg-sidebar);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 6px 0;
+            font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1001;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+        }
+        .top-bar .top-left {
+            display: flex;
+            gap: clamp(12px, 2vw, 20px);
+            flex-wrap: wrap;
+        }
+        .top-bar a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: inherit;
+            white-space: nowrap;
+        }
+        .top-bar a:hover {
+            color: white;
+        }
+        .top-bar .badge-new {
+            background: var(--warning);
+            color: var(--bg-sidebar);
+            padding: 1px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .top-bar .top-right {
+            display: flex;
+            gap: clamp(8px, 1.5vw, 16px);
+            align-items: center;
+        }
+        .top-bar .top-right .divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.7rem;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        header {
+            background: var(--bg-card);
+            box-shadow: var(--shadow-sm);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: 0.3s;
+            min-height: var(--header-height);
+            display: flex;
+            align-items: center;
+        }
+        header .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+        header .logo {
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        header .logo .logo-icon {
+            width: clamp(32px, 4vw, 40px);
+            height: clamp(32px, 4vw, 40px);
+            background: var(--primary-gradient);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            box-shadow: var(--shadow-primary);
+            flex-shrink: 0;
+        }
+        header .logo .company-name {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        header .logo .company-name .main {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 900;
+        }
+        header .logo .company-name .sub {
+            font-size: clamp(0.45rem, 0.7vw, 0.55rem);
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        header nav {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        header nav a {
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: 0.25s;
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+            padding: 6px clamp(10px, 1.2vw, 14px);
+            border-radius: var(--radius-full);
+            position: relative;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        header nav a:hover {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.06);
+        }
+        header nav a.active {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+        }
+        header nav a.experience-nav {
+            background: var(--primary-gradient);
+            color: white !important;
+            padding: 6px 18px;
+            font-weight: 600;
+            box-shadow: var(--shadow-primary);
+            transition: 0.3s ease;
+        }
+        header nav a.experience-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.4);
+            background: var(--primary-gradient);
+            color: white !important;
+        }
+        header nav a.experience-nav i {
+            margin-right: 4px;
+        }
+
+        header .btn-outline {
+            border: 2px solid var(--primary);
+            padding: 6px clamp(14px, 1.5vw, 20px);
+            border-radius: var(--radius-full);
+            color: var(--primary);
+            font-weight: 600;
+            transition: 0.3s ease;
+            background: transparent;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 1.1vw, 0.85rem);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        header .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .menu-toggle:hover {
+            background: var(--bg-hover);
+        }
+
+        /* ============================================================
+           HERO SECTION
+           ============================================================ */
+        .hero {
+            padding: clamp(40px, 8vh, 80px) 0 clamp(30px, 5vh, 60px);
+            background: var(--bg-body);
+            position: relative;
+            overflow: hidden;
+            min-height: clamp(70vh, 80vh, 90vh);
+            display: flex;
+            align-items: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            animation: hero-glow 8s ease-in-out infinite alternate;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -15%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            animation: hero-glow 10s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes hero-glow {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                transform: scale(1.2) translate(40px, -40px);
+            }
+        }
+
+        .hero .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(30px, 5vw, 60px);
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        .hero .hero-content .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--primary);
+            padding: 4px 18px 4px 12px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: clamp(0.6rem, 1vw, 0.7rem);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: clamp(12px, 2vh, 20px);
+            border: 1px solid rgba(37, 99, 235, 0.06);
+        }
+        .hero .hero-content .badge .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .hero .hero-content h1 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: clamp(12px, 2vh, 16px);
+            color: var(--text-primary);
+        }
+        .hero .hero-content h1 .highlight {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        .hero .hero-content .sub-text {
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: clamp(20px, 3vh, 32px);
+            line-height: 1.8;
+        }
+        .hero .hero-content .cta-group {
+            display: flex;
+            gap: clamp(10px, 1.5vw, 14px);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .hero .hero-content .cta-group .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: clamp(12px, 1.5vh, 14px) clamp(24px, 3vw, 40px);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            color: white;
+            box-shadow: var(--shadow-primary);
+            transition: 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero .hero-content .cta-group .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: 0.6s;
+        }
+        .hero .hero-content .cta-group .btn-primary:hover::before {
+            left: 100%;
+        }
+        .hero .hero-content .cta-group .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.4);
+        }
+        .hero .hero-content .cta-group .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            padding: clamp(10px, 1.2vh, 12px) clamp(20px, 2.5vw, 34px);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            color: var(--text-primary);
+            transition: 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .hero .hero-content .cta-group .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero .hero-content .trust-badges {
+            display: flex;
+            gap: clamp(16px, 2.5vw, 24px);
+            margin-top: clamp(20px, 3vh, 28px);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .hero .hero-content .trust-badges .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: clamp(0.7rem, 1vw, 0.8rem);
+            color: var(--text-muted);
+        }
+        .hero .hero-content .trust-badges .trust-item i {
+            color: var(--success);
+            font-size: clamp(0.8rem, 1vw, 1rem);
+        }
+
+        .hero .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero .hero-image .img-wrapper {
+            width: 100%;
+            max-width: min(480px, 100%);
+            aspect-ratio: 1/1;
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            transition: 0.5s;
+            padding: 20px;
+        }
+        .hero .hero-image .img-wrapper:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-xl);
+        }
+        .hero .hero-image .img-wrapper .floating-badge {
+            position: absolute;
+            top: clamp(12px, 2vw, 20px);
+            right: clamp(12px, 2vw, 20px);
+            background: var(--bg-card);
+            padding: clamp(6px, 1vw, 8px) clamp(12px, 1.5vw, 16px);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-md);
+            font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: float-badge 4s ease-in-out infinite;
+        }
+        @keyframes float-badge {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        .hero .hero-image .img-wrapper .floating-badge i {
+            color: var(--warning);
+        }
+        .hero .hero-image .img-wrapper i.main-icon {
+            font-size: clamp(5rem, 15vw, 10rem);
+            color: var(--primary);
+            opacity: 0.9;
+            filter: drop-shadow(0 16px 40px rgba(37, 99, 235, 0.12));
+            animation: float-icon 6s ease-in-out infinite;
+        }
+        @keyframes float-icon {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-12px) rotate(2deg);
+            }
+        }
+        .hero .hero-image .img-wrapper .tag {
+            margin-top: 8px;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: clamp(0.7rem, 1vw, 0.85rem);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hero .hero-image .img-wrapper .tag i {
+            font-size: 0.9rem;
+            color: var(--primary);
+            filter: none;
+            animation: none;
+        }
+
+        /* ============================================================
+           COUNTER STATS
+           ============================================================ */
+        .counter-stats {
+            padding: clamp(24px, 4vh, 40px) 0;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .counter-stats .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: clamp(16px, 2vw, 24px);
+            text-align: center;
+        }
+        .counter-stats .stats-grid .stat-item .number {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+        }
+        .counter-stats .stats-grid .stat-item .number .plus {
+            color: var(--primary);
+        }
+        .counter-stats .stats-grid .stat-item .label {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: clamp(0.75rem, 1vw, 0.9rem);
+        }
+        .counter-stats .stats-grid .stat-item .icon {
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        /* ============================================================
+           SECTION HEADERS
+           ============================================================ */
+        .section-header {
+            margin-bottom: clamp(24px, 4vh, 40px);
+        }
+        .section-header .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.06);
+            color: var(--primary);
+            padding: 2px 14px 2px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .section-header h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+        .section-header h2 i {
+            color: var(--primary);
+        }
+        .section-header p {
+            color: var(--text-muted);
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+            margin-top: 4px;
+            max-width: 600px;
+        }
+        .section-header.center {
+            text-align: center;
+        }
+        .section-header.center p {
+            margin: 4px auto 0;
+        }
+        .section-header.center .tag {
+            margin: 0 auto 8px;
+        }
+
+        /* ============================================================
+           SERVICES
+           ============================================================ */
+        .services {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+            gap: clamp(20px, 2.5vw, 28px);
+        }
+        .service-card {
+            background: var(--bg-card);
+            padding: clamp(24px, 3vh, 32px) clamp(18px, 2vw, 24px) clamp(20px, 2.5vh, 28px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.08);
+        }
+        .service-card .icon {
+            background: rgba(37, 99, 235, 0.08);
+            width: clamp(56px, 8vw, 72px);
+            height: clamp(56px, 8vw, 72px);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            color: var(--primary);
+            transition: 0.4s;
+        }
+        .service-card:hover .icon {
+            background: var(--primary);
+            color: white;
+            transform: rotate(8deg) scale(1.05);
+            box-shadow: var(--shadow-primary);
+        }
+        .service-card h3 {
+            font-size: clamp(1rem, 1.3vw, 1.15rem);
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+        .service-card p {
+            color: var(--text-muted);
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           EXPERIENCE SECTION
+           ============================================================ */
+        .experience-section {
+            padding: clamp(30px, 4vh, 50px) 0;
+            text-align: center;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            border: 1px solid var(--border-color);
+        }
+        .exp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 18px 40px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-primary);
+            transition: 0.4s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .exp-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 48px rgba(37, 99, 235, 0.4);
+        }
+        .exp-btn i {
+            font-size: 1.8rem;
+            animation: pulse-icon 2s infinite;
+        }
+        @keyframes pulse-icon {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+        .exp-btn .exp-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+        .exp-btn .exp-text .small {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* ============================================================
+           PROCESS
+           ============================================================ */
+        .process {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+            gap: clamp(20px, 2.5vw, 28px);
+            position: relative;
+        }
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border-color);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .process-step .step-number {
+            width: clamp(44px, 6vw, 56px);
+            height: clamp(44px, 6vw, 56px);
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 700;
+            margin: 0 auto 12px;
+            box-shadow: var(--shadow-primary);
+        }
+        .process-step h4 {
+            font-size: clamp(0.9rem, 1.2vw, 1rem);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .process-step p {
+            font-size: clamp(0.75rem, 1vw, 0.85rem);
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           ABOUT US SECTION
+           ============================================================ */
+        .about {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .about .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(30px, 5vw, 60px);
+            align-items: center;
+        }
+        .about .about-grid .about-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .about .about-grid .about-image .img-placeholder {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1/1;
+            background: var(--bg-body);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+        }
+        .about .about-grid .about-image .img-placeholder i {
+            font-size: clamp(4rem, 10vw, 6rem);
+            color: var(--primary);
+            opacity: 0.8;
+        }
+        .about .about-grid .about-image .img-placeholder .tag {
+            margin-top: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: clamp(0.7rem, 1vw, 0.85rem);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .about .about-grid .about-image .img-placeholder .tag i {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+        .about .about-grid .about-content .about-text {
+            color: var(--text-muted);
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .about .about-grid .about-content .about-text strong {
+            color: var(--text-primary);
+        }
+        .about .about-grid .about-content .about-text .highlight-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .about .about-grid .about-content .about-text i {
+            color: var(--primary);
+            margin-right: 4px;
+        }
+        .about .about-grid .about-content .features-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(8px, 1vw, 12px);
+            margin-top: 20px;
+        }
+        .about .about-grid .about-content .features-list .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+        }
+        .about .about-grid .about-content .features-list .item i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* ============================================================
+           MISSION & VISION
+           ============================================================ */
+        .mission-vision {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+        }
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(20px, 3vw, 30px);
+        }
+        .mv-card {
+            background: var(--bg-card);
+            padding: clamp(24px, 3vh, 32px) clamp(20px, 2.5vw, 28px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .mv-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        .mv-card .mv-icon {
+            width: clamp(50px, 6vw, 64px);
+            height: clamp(50px, 6vw, 64px);
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            color: var(--primary);
+        }
+        .mv-card h3 {
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .mv-card p {
+            color: var(--text-muted);
+            font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           CORE VALUES
+           ============================================================ */
+        .core-values {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+            gap: clamp(16px, 2vw, 24px);
+        }
+        .value-item {
+            text-align: center;
+            padding: clamp(18px, 2.5vh, 24px) clamp(12px, 1.5vw, 16px);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .value-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+        .value-item .value-icon {
+            font-size: clamp(2rem, 3vw, 2.5rem);
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .value-item h4 {
+            font-size: clamp(0.9rem, 1.2vw, 1rem);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .value-item p {
+            font-size: clamp(0.75rem, 1vw, 0.85rem);
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           TEAM
+           ============================================================ */
+        .team {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+            gap: clamp(24px, 3vw, 32px);
+        }
+        .team-member {
+            text-align: center;
+            background: var(--bg-card);
+            padding: clamp(20px, 2.5vh, 28px) clamp(16px, 2vw, 20px) clamp(18px, 2vh, 24px);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.08);
+        }
+
+        .team-member .member-photo {
+            width: clamp(100px, 14vw, 140px);
+            height: clamp(100px, 14vw, 140px);
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            overflow: hidden;
+            border: 4px solid var(--border-color);
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        .team-member:hover .member-photo {
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.15);
+        }
+        .team-member .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .team-member .member-photo .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            background: var(--primary-gradient);
+        }
+
+        .team-member .leader-badge {
+            display: inline-block;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 3px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .team-member h4 {
+            font-size: clamp(1rem, 1.2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .team-member .role {
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .team-member .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .team-member .social-links a {
+            color: var(--text-muted);
+            transition: 0.2s;
+            font-size: 0.9rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+        }
+        .team-member .social-links a:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================================
+           CLIENTS
+           ============================================================ */
+        .clients {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: clamp(20px, 2.5vw, 30px);
+            align-items: center;
+            justify-items: center;
+        }
+        .client-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            transition: 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+        .client-logo:hover {
+            background: rgba(37, 99, 235, 0.04);
+            transform: translateY(-3px);
+        }
+        .client-logo .logo-icon {
+            font-size: 2.2rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .client-logo:hover .logo-icon {
+            opacity: 0.8;
+            color: var(--primary);
+        }
+        .client-logo .logo-name {
+            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+        .client-logo:hover .logo-name {
+            opacity: 1;
+            color: var(--primary);
+        }
+        .client-logo .trust-badge {
+            font-size: 0.55rem;
+            color: var(--success);
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .client-logo:hover .trust-badge {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           CASE STUDIES
+           ============================================================ */
+        .case-studies {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+        }
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+            gap: clamp(20px, 2.5vw, 28px);
+        }
+        .case-item {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .case-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        .case-item .case-img {
+            height: clamp(120px, 18vh, 160px);
+            background: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2.5rem, 4vw, 3rem);
+            color: var(--primary);
+        }
+        .case-item .case-body {
+            padding: clamp(16px, 2vh, 20px) clamp(16px, 2vw, 22px) clamp(18px, 2.5vh, 22px);
+        }
+        .case-item .case-body .tag {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--primary);
+            padding: 1px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .case-item .case-body h4 {
+            font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .case-item .case-body p {
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
+            color: var(--text-muted);
+        }
+        .case-item .case-body .case-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+        .case-item .case-body .case-link:hover {
+            gap: 12px;
+        }
+
+        /* ============================================================
+           TESTIMONIALS
+           ============================================================ */
+        .testimonials-slider {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+            gap: clamp(20px, 2.5vw, 28px);
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: clamp(18px, 2.5vh, 24px) clamp(18px, 2vw, 24px) clamp(16px, 2vh, 20px);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            border-color: rgba(37, 99, 235, 0.1);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        .testimonial-card .stars {
+            color: var(--warning);
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .testimonial-card blockquote {
+            font-style: italic;
+            color: var(--text-primary);
+            font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .testimonial-card .author .avatar {
+            width: clamp(40px, 5vw, 48px);
+            height: clamp(40px, 5vw, 48px);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .testimonial-card .author .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .testimonial-card .author .avatar .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .testimonial-card .author .info .name {
+            font-weight: 600;
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            color: var(--text-primary);
+        }
+        .testimonial-card .author .info .role {
+            font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           BLOG
+           ============================================================ */
+        .blog {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: clamp(20px, 2.5vw, 30px);
+        }
+        .blog-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.06);
+        }
+        .blog-card .blog-img {
+            height: clamp(120px, 18vh, 160px);
+            background: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+            color: var(--primary);
+        }
+        .blog-card .blog-body {
+            padding: clamp(16px, 2vh, 20px) clamp(16px, 2vw, 22px) clamp(18px, 2.5vh, 24px);
+        }
+        .blog-card .blog-body .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 1vw, 12px);
+            font-size: clamp(0.65rem, 0.9vw, 0.75rem);
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .blog-card .blog-body .blog-meta i {
+            margin-right: 4px;
+            color: var(--primary);
+        }
+        .blog-card .blog-body .blog-meta .dot {
+            color: var(--border-color);
+        }
+        .blog-card .blog-body h4 {
+            font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        .blog-card .blog-body p {
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .blog-card .blog-body .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .blog-card .blog-body .read-more:hover {
+            gap: 12px;
+            color: var(--primary-dark);
+        }
+
+        /* ============================================================
+           CTA BANNER
+           ============================================================ */
+        .cta-banner {
+            padding: clamp(40px, 8vh, 60px) 0;
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner h2 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: clamp(8px, 1.5vh, 12px);
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto clamp(16px, 2.5vh, 24px);
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .btn-cta {
+            padding: clamp(12px, 1.5vh, 14px) clamp(28px, 4vw, 40px);
+            border: none;
+            border-radius: var(--radius-full);
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: clamp(0.85rem, 1.1vw, 1rem);
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ============================================================
+           FAQ
+           ============================================================ */
+        .faq {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: clamp(12px, 1.5vh, 16px) 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item .faq-question {
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+            color: var(--text-primary);
+            gap: 12px;
+        }
+        .faq-item .faq-question:hover {
+            color: var(--primary);
+        }
+        .faq-item .faq-question .icon-wrap {
+            width: clamp(24px, 3vw, 28px);
+            height: clamp(24px, 3vw, 28px);
+            border-radius: 50%;
+            background: var(--bg-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item .faq-question .icon-wrap i {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .faq-item.active .faq-question .icon-wrap {
+            background: var(--primary);
+        }
+        .faq-item.active .faq-question .icon-wrap i {
+            color: white;
+            transform: rotate(180deg);
+        }
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0;
+            color: var(--text-muted);
+            font-size: clamp(0.85rem, 1vw, 0.9rem);
+            line-height: 1.7;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: clamp(8px, 1vh, 12px) 0 0 0;
+        }
+
+        /* ============================================================
+           NEWSLETTER
+           ============================================================ */
+        .newsletter {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+        }
+        .newsletter-box {
+            background: var(--primary-gradient);
+            padding: clamp(28px, 5vh, 48px) clamp(20px, 4vw, 40px);
+            border-radius: var(--radius-xl);
+            color: white;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .newsletter-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .newsletter-box h3 {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 800;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .newsletter-box p {
+            font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+            opacity: 0.85;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .newsletter-box .news-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(8px, 1vw, 10px);
+            max-width: 460px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .newsletter-box .news-form input {
+            flex: 1 1 200px;
+            padding: clamp(10px, 1.2vh, 12px) clamp(14px, 1.5vw, 20px);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: clamp(0.85rem, 1vw, 0.9rem);
+            outline: none;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            min-width: 160px;
+        }
+        .newsletter-box .news-form button {
+            padding: clamp(10px, 1.2vh, 12px) clamp(20px, 2.5vw, 32px);
+            border: none;
+            border-radius: var(--radius-full);
+            background: var(--bg-sidebar);
+            color: white;
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1vw, 0.9rem);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        .newsletter-box .news-form button:hover {
+            background: #1e293b;
+            transform: scale(1.02);
+        }
+
+        /* ============================================================
+           CONTACT
+           ============================================================ */
+        .contact {
+            padding: clamp(40px, 6vh, 60px) 0 clamp(20px, 4vh, 40px);
+            background: var(--bg-sidebar);
+            border-radius: var(--radius-xl);
+            margin: clamp(12px, 2vh, 20px) 0;
+            color: white;
+        }
+        .contact .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(30px, 5vw, 60px);
+        }
+        .contact .contact-grid .info h2 {
+            font-size: clamp(1.6rem, 3vw, 2rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: white;
+        }
+        .contact .contact-grid .info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .contact .contact-grid .info .details {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(10px, 1.2vh, 14px);
+        }
+        .contact .contact-grid .info .details .item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: clamp(0.85rem, 1vw, 0.95rem);
+        }
+        .contact .contact-grid .info .details .item i {
+            width: clamp(32px, 4vw, 36px);
+            height: clamp(32px, 4vw, 36px);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-light);
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            flex-shrink: 0;
+        }
+        .contact .contact-grid .info .details .item a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .contact .contact-grid .info .details .item a:hover {
+            color: white;
+        }
+        .contact .contact-grid .info .social {
+            display: flex;
+            gap: clamp(10px, 1.5vw, 14px);
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .contact .contact-grid .info .social a {
+            width: clamp(36px, 4.5vw, 40px);
+            height: clamp(36px, 4.5vw, 40px);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.4);
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: clamp(0.85rem, 1vw, 1rem);
+        }
+        .contact .contact-grid .info .social a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        .contact .contact-grid .form .form-group {
+            margin-bottom: clamp(14px, 1.8vh, 18px);
+        }
+        .contact .contact-grid .form .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 1vw, 0.85rem);
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .contact .contact-grid .form .form-group input,
+        .contact .contact-grid .form .form-group textarea {
+            width: 100%;
+            padding: clamp(10px, 1.2vh, 12px) clamp(12px, 1.5vw, 16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.04);
+            color: white;
+            font-size: clamp(0.9rem, 1vw, 0.95rem);
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .contact .contact-grid .form .form-group input::placeholder,
+        .contact .contact-grid .form .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .contact .contact-grid .form .form-group input:focus,
+        .contact .contact-grid .form .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .contact .contact-grid .form .form-group textarea {
+            min-height: clamp(100px, 15vh, 120px);
+            resize: vertical;
+        }
+        .contact .contact-grid .form .btn-submit {
+            padding: clamp(12px, 1.5vh, 14px) clamp(28px, 4vw, 40px);
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: var(--shadow-primary);
+            width: 100%;
+        }
+        .contact .contact-grid .form .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        /* ============================================================
+           LIVE CHAT
+           ============================================================ */
+        .live-chat {
+            position: fixed;
+            bottom: clamp(16px, 3vh, 30px);
+            right: clamp(16px, 3vw, 30px);
+            z-index: 999;
+        }
+        .live-chat .chat-btn {
+            width: clamp(48px, 7vw, 60px);
+            height: clamp(48px, 7vw, 60px);
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-primary);
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-chat 2s infinite;
+        }
+        .live-chat .chat-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.4);
+        }
+        @keyframes pulse-chat {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(37, 99, 235, 0);
+            }
+        }
+        .live-chat .chat-notif {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 18px;
+            height: 18px;
+            background: var(--danger);
+            border-radius: 50%;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer {
+            margin-top: clamp(12px, 2vh, 20px);
+            background: var(--bg-sidebar);
+            color: rgba(255, 255, 255, 0.7);
+            padding: clamp(28px, 4vh, 38px) 0 clamp(20px, 3vh, 28px);
+            text-align: center;
+        }
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: clamp(20px, 3vw, 32px);
+            margin-bottom: 20px;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            flex-wrap: wrap;
+        }
+        .footer-social a {
+            color: rgba(255, 255, 255, 0.4);
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .footer-social a:hover {
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: clamp(16px, 2.5vw, 30px);
+            margin: 14px 0 18px;
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            transition: 0.2s;
+            position: relative;
+        }
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: clamp(8px, 1.5vh, 12px);
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 18px;
+        }
+        .footer-bottom p {
+            font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .footer-bottom .footer-badge {
+            display: flex;
+            gap: clamp(12px, 2vw, 18px);
+            flex-wrap: wrap;
+        }
+        .footer-bottom .footer-badge span {
+            font-size: clamp(0.65rem, 0.8vw, 0.75rem);
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .hero .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+            .hero .hero-content .sub-text {
+                margin: 0 auto 28px;
+            }
+            .hero .hero-content .cta-group {
+                justify-content: center;
+            }
+            .hero .hero-content .trust-badges {
+                justify-content: center;
+            }
+            .hero .hero-image .img-wrapper {
+                max-width: min(380px, 80%);
+                margin: 0 auto;
+            }
+            .about .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .about .about-grid .about-content .features-list {
+                justify-items: center;
+            }
+            .contact .contact-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .contact .contact-grid .info .details .item {
+                justify-content: center;
+            }
+            .contact .contact-grid .info .social {
+                justify-content: center;
+            }
+            .process-grid::before {
+                display: none;
+            }
+            .mv-grid {
+                grid-template-columns: 1fr;
+            }
+            .top-bar .top-left a span {
+                display: none;
+            }
+            .top-bar .top-left a i {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 16px;
+            }
+            .top-bar .container {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .top-bar .top-left {
+                justify-content: center;
+            }
+            .top-bar .top-right {
+                justify-content: center;
+            }
+            header .header-inner {
+                flex-direction: row;
+                gap: 8px;
+            }
+            header nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 12px 0;
+                gap: 4px;
+                background: var(--bg-card);
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                z-index: 999;
+                border: 1px solid var(--border-color);
+            }
+            header nav.open {
+                display: flex;
+            }
+            header nav a {
+                width: 100%;
+                text-align: center;
+                padding: 10px 12px;
+                border-radius: 0;
+            }
+            header .btn-outline {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero .hero-content h1 {
+                font-size: clamp(1.8rem, 6vw, 2.6rem);
+            }
+            .counter-stats .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+            .values-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .clients-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-bottom .footer-badge {
+                justify-content: center;
+            }
+            .section-header h2 {
+                font-size: clamp(1.3rem, 4vw, 1.8rem);
+            }
+            .live-chat .chat-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+            }
+            .cta-banner h2 {
+                font-size: clamp(1.3rem, 4vw, 1.8rem);
+            }
+            .about .about-grid .about-content .features-list {
+                grid-template-columns: 1fr 1fr;
+            }
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .contact .contact-grid .form .btn-submit {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .clients-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .counter-stats .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .counter-stats .stats-grid .stat-item .number {
+                font-size: 1.6rem;
+            }
+            .hero .hero-content .cta-group .btn-primary,
+            .hero .hero-content .cta-group .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+            .hero .hero-content .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero .hero-image .img-wrapper {
+                max-width: 280px;
+            }
+            .hero .hero-image .img-wrapper i.main-icon {
+                font-size: 4.5rem;
+            }
+            .about .about-grid .about-image .img-placeholder {
+                max-width: 240px;
+            }
+            .about .about-grid .about-image .img-placeholder i {
+                font-size: 3.5rem;
+            }
+            .newsletter-box {
+                padding: 24px 16px;
+            }
+            .newsletter-box h3 {
+                font-size: 1.2rem;
+            }
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cta-banner h2 {
+                font-size: 1.2rem;
+            }
+            .cta-banner p {
+                font-size: 0.85rem;
+            }
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+            .footer-links {
+                gap: 12px;
+            }
+            .about .about-grid .about-content .features-list {
+                grid-template-columns: 1fr;
+            }
+            .contact .contact-grid .info .details .item {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+            .top-bar .top-left a {
+                font-size: 0.7rem;
+            }
+            .team-member .member-photo {
+                width: 100px;
+                height: 100px;
+            }
+            .exp-btn {
+                padding: 14px 24px;
+                font-size: 0.95rem;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .exp-btn .exp-text {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero .hero-content h1 {
+                font-size: 1.5rem;
+            }
+            .counter-stats .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .counter-stats .stats-grid .stat-item .number {
+                font-size: 1.3rem;
+            }
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .clients-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (hover: none) {
+            .service-card:hover,
+            .team-member:hover,
+            .blog-card:hover,
+            .case-item:hover,
+            .testimonial-card:hover,
+            .mv-card:hover,
+            .value-item:hover,
+            .hero .hero-image .img-wrapper:hover,
+            .client-logo:hover {
+                transform: none;
+            }
+            .faq-item .faq-question:hover {
+                color: var(--text-primary);
+            }
+        }
+
+        /* ============================================================
+           SCROLLBAR STYLING (Dark mode friendly)
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ============================================================
+           FLOATING SHAPES (Dark mode friendly)
+           ============================================================ */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .floating-shapes .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+            background: var(--primary);
+            animation: float-shape 20s infinite linear;
+        }
+        .floating-shapes .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: -5%;
+            animation-duration: 25s;
+        }
+        .floating-shapes .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: 10%;
+            right: -10%;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+        .floating-shapes .shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            animation-duration: 20s;
+            animation-delay: 5s;
+        }
+        @keyframes float-shape {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg) scale(1.2);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg) scale(0.8);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    FLOATING SHAPES
+    ============================================================ -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- ============================================================
+    TOP BAR
+    ============================================================ -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-left">
+                <a href="tel:+252615020879"><i class="fas fa-phone-alt"></i> <span>+252 615020879</span></a>
+                <a href="mailto:kulmistech@gmail.so"><i class="fas fa-envelope"></i> <span>kulmistech@gmail.so</span></a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> <span>Mogadishu, Somalia</span></a>
+            </div>
+            <div class="top-right">
+                <span class="badge-new"><i class="fas fa-bolt"></i> Live</span>
+                <span class="divider">|</span>
+                <span style="display:flex;align-items:center;gap:4px;">
+                    <i class="fas fa-clock"></i> 24/7 Support
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fas fa-microchip"></i></span>
+                <span class="company-name">
+                    <span class="main">Kulmis</span>
+                    <span class="sub">Technology Company</span>
+                </span>
+            </a>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+                <!-- THEME TOGGLER - SARE -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                    <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                    </span>
+                    <span class="toggle-label" id="themeLabel">Dark</span>
+                </button>
+
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav id="mainNav">
+                <a href="#" class="active">Home</a>
+                <a href="#services">Adeegyada</a>
+                <a href="#about">Nagu saabsan</a>
+                <a href="#team">Kooxdeena</a>
+                <a href="#blog">Blog</a>
+                <a href="#clients">Macaamiil</a>
+                <a href="#contact" class="btn-outline"><i class="fas fa-rocket"></i> Xiriir</a>
+                <a href="#about" class="experience-nav"><i class="fas fa-calendar-check"></i> Experience</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    HERO SECTION
+    ============================================================ -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="badge">
+                        <span class="pulse-dot"></span>
+                        Xalal casri ah 2026
+                    </div>
+                    <h1>
+                        Ku dhis <br />
+                        <span class="highlight">Kulmis</span> Technology
+                    </h1>
+                    <p class="sub-text" id="heroDisplayText">
+                        Tiknoolajiyo casri ah iyo isbeddel dhijitaal ah —
+                        waxaan u dhignaa nidaamyo lagu kalsoonaan karo oo la miisaami karo.
+                    </p>
+                    <div class="cta-group">
+                        <a href="#services" class="btn-primary">
+                            <i class="fas fa-arrow-right"></i> Faahfaahin
+                        </a>
+                        <a href="#contact" class="btn-secondary">
+                            <i class="fas fa-headset"></i> Nagala soo xiriir
+                        </a>
+                    </div>
+                    <div class="trust-badges">
+                        <span class="trust-item"><i class="fas fa-check-circle"></i> <span id="badgeCustomers">25</span>+ Macmiil</span>
+                        <span class="trust-item"><i class="fas fa-check-circle"></i> 98% Qanacsanaanta</span>
+                        <span class="trust-item"><i class="fas fa-check-circle"></i> 24/7 Taageero</span>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="img-wrapper">
+                        <div class="floating-badge">
+                            <i class="fas fa-check-circle"></i> 100% Kalsooni
+                        </div>
+                        <i class="fas fa-cloud-upload-alt main-icon"></i>
+                        <div class="tag">
+                            <i class="fas fa-check-circle"></i> Kulmis Technology · Caalami
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    COUNTER STATS
+    ============================================================ -->
+    <section class="counter-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="icon"><i class="fas fa-project-diagram"></i></div>
+                    <div class="number" id="counterProjects">3</div>
+                    <div class="label">Mashruucyo La Dhammeeyey</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <div class="number" id="counterCustomers">25</div>
+                    <div class="label">Macmiil Ku Qanacsan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon"><i class="fas fa-trophy"></i></div>
+                    <div class="number" id="counterAwards">1</div>
+                    <div class="label">Abaalmarin</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon"><i class="fas fa-globe-africa"></i></div>
+                    <div class="number" id="counterCountries">2</div>
+                    <div class="label">Waddan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon"><i class="fas fa-code"></i></div>
+                    <div class="number" id="counterExperts">5</div>
+                    <div class="label">Khabiir</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SERVICES SECTION
+    ============================================================ -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-bolt"></i> Adeegyadeena</div>
+                <h2><i class="fas fa-server"></i> Xalal Tiknoolojiyadeed</h2>
+                <p>Xalal dhammaystiran oo loogu talagalay ganacsigaaga casriga ah</p>
+            </div>
+            <div class="card-grid">
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-code"></i></div>
+                    <h3>Horumar &amp; AI</h3>
+                    <p>Barnaamijyo gaar ah, barashada mashiinka, iyo otomaatig.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-cloud"></i></div>
+                    <h3>Daraasad &amp; Kayd</h3>
+                    <p>Nidaam AWS, Azure &amp; GCP oo la miisaami karo.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Mobile &amp; Web</h3>
+                    <p>Apps-jiyaar leh, PWA, iyo isku xirnaan dhamaan qalabka.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Amniga</h3>
+                    <p>Qiimeyn, u hoggaansanaan, iyo kormeer khatar ah.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-robot"></i></div>
+                    <h3>Otomaatig</h3>
+                    <p>Hagaajinta hawlaha ganacsiga iyadoo la adeegsanayo automation.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Falanqaynta Xogta</h3>
+                    <p>Data analytics, visualization, iyo go'aan qaadasho.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Isku-xirka IT</h3>
+                    <p>Dhisida shabakado, isku-xirnaan, iyo dayactir nidaam.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Tababarka</h3>
+                    <p>Tababar iyo horumarinta xirfadaha tiknoolajiyada ee shaqaalaha.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    EXPERIENCE SECTION
+    ============================================================ -->
+    <section class="experience-section" id="experience">
+        <div class="container">
+            <button class="exp-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+                <i class="fas fa-calendar-check"></i>
+                <span class="exp-text">
+                    <span class="small">Waxaan leenahay</span>
+                    <span><i class="fas fa-star" style="font-size:0.7rem;margin-right:4px;"></i> 5+ Sano oo Khibrad ah</span>
+                </span>
+                <i class="fas fa-arrow-right" style="font-size:1rem;"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    PROCESS
+    ============================================================ -->
+    <section class="process">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-route"></i> Habkeena</div>
+                <h2><i class="fas fa-cogs"></i> Sidee Uga Shaqeynaa</h2>
+                <p>Habka aan uga shaqeyno mashruucyada si heer sare ah</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Faham</h4>
+                    <p>Waxaan fahamnaa baahidaada iyo yoolalkaaga</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Qorsheyn</h4>
+                    <p>Waxaan dhisnaa istaraatiijiyad ku habboon</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Dhisid</h4>
+                    <p>Waxaan fulinaa mashruuca si tayo leh</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Bandhigid</h4>
+                    <p>Waxaan ku soo bandhignaa natiijooyinka</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    ABOUT US SECTION
+    ============================================================ -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="img-placeholder">
+                        <i class="fas fa-building"></i>
+                        <div class="tag"><i class="fas fa-check-circle"></i> Since <span id="aboutYear">2026</span> · <span id="aboutLocation">Mogadishu, Somalia</span></div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="section-header">
+                        <div class="tag"><i class="fas fa-info-circle"></i> Nagu Saabsan</div>
+                        <h2 id="aboutCompanyName">Kulmis Technology Company</h2>
+                    </div>
+                    <div class="about-text">
+                        <p>
+                            <i class="fas fa-quote-left" style="font-size:0.9rem;opacity:0.4;margin-right:4px;"></i>
+                            <strong id="aboutNameBold">Kulmis Technology Company</strong> waxay bixisaa xalal dhijitaal ah oo hal-abuur leh
+                            iyadoo la raacayo habka dadka. Waxaa la aasaasay <strong id="aboutYear2">2026</strong> magaalada <strong id="aboutLocation2">Mogadishu, Somalia</strong>,
+                            waxaan isku darsaynaa khibrad farsamo iyo istaraatiijiyad degdeg ah si aan ugu adeegno
+                            ganacsiyada kala duwan.
+                        </p>
+                        <p>
+                            <i class="fas fa-check-circle" style="color:var(--primary);"></i>
+                            Shirkadeenu waxay ku takhasustay bixinta xalal casri ah oo loogu talagalay
+                            <span class="highlight-text">ganacsiga yaryar, kuwa dhexdhexaadka ah, iyo kuwa waaweyn</span>,
+                            iyadoo la dhisayo nidaamyo adag oo mustaqbal-ku-habal ah laga bilaabo fikrad ilaa dhaqangal.
+                        </p>
+                        <p>
+                            <i class="fas fa-rocket" style="color:var(--primary);"></i>
+                            Waxaan aaminsanahay in <span class="highlight-text">tiknoolajiyada ay tahay furaha horumarka</span>,
+                            waxaanuna ku dadaalnaa inaan ku soo bandhigno xalal casri ah oo la jaan qaadaya
+                            isbeddelada degdega ah ee dunida dhijitaalka ah.
+                        </p>
+                    </div>
+                    <div class="features-list">
+                        <div class="item"><i class="fas fa-check-circle"></i> <span id="aboutExperts">5</span> Khabiir</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> <span id="aboutCountries">2</span> Waddan</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> <span id="aboutCustomers">25</span> Macmiil</div>
+                        <div class="item"><i class="fas fa-check-circle"></i> <span id="aboutAwards">1</span> Abaalmarin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    MISSION & VISION
+    ============================================================ -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-bullseye"></i> Himilo</div>
+                <h2><i class="fas fa-target"></i> Mission &amp; Vision</h2>
+                <p>Waxaan u shaqeynaa si aan u gaarno yoolalka soo socda</p>
+            </div>
+            <div class="mv-grid">
+                <div class="mv-card">
+                    <div class="mv-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Mission</h3>
+                    <p>
+                        Inaan bixino xalal dhijitaal ah oo hal-abuur leh, kuwaas oo u sahlaya
+                        ganacsiyada inay gaaraan yoolalkooda iyagoo isticmaalaya tiknoolajiyada casriga ah,
+                        iyadoo la ilaalinayo tayo, kalsooni, iyo qanacsanaanta macaamiisha.
+                    </p>
+                </div>
+                <div class="mv-card">
+                    <div class="mv-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Vision</h3>
+                    <p>
+                        Inaan noqono shirkadda ugu hormarsan ee bixisa xalal dhijitaal ah ee Geeska Afrika,
+                        iyadoo la aasaasayo halbeeg cusub oo tayo, hal-abuur, iyo saameyn ku yeesha
+                        bulshada iyo dhaqaalaha Soomaaliya.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CORE VALUES
+    ============================================================ -->
+    <section class="core-values">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-heart"></i> Qiyamkeena</div>
+                <h2><i class="fas fa-gem"></i> Core Values</h2>
+                <p>Waxaan ku dhaqmaa qiyamkan si aan u gaarno guusha</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon"><i class="fas fa-medal"></i></div>
+                    <h4>Tayo</h4>
+                    <p>Waxaan bixinaa adeegyo tayo sare leh</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon"><i class="fas fa-handshake"></i></div>
+                    <h4>Kalsooni</h4>
+                    <p>Waxaan la shaqaynaa daacadnimo iyo hufnaan</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h4>Hal-abuur</h4>
+                    <p>Waxaan raadinaa xalal cusub oo casri ah</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon"><i class="fas fa-users"></i></div>
+                    <h4>Wada-shaqeyn</h4>
+                    <p>Waxaan ku shaqeynaa iskaashi iyo wada-hadal</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon"><i class="fas fa-globe-africa"></i></div>
+                    <h4>Saameyn</h4>
+                    <p>Waxaan dooneynaa inaan saameyn ku yeesho bulshada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    TEAM SECTION
+    ============================================================ -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-user-tie"></i> Kooxdeena</div>
+                <h2><i class="fas fa-users"></i> Khabiirrada Kulmis</h2>
+                <p>Khabiirro ku takhasusay dhamaan qaybaha tiknoolajiyada</p>
+            </div>
+            <div class="team-grid" id="teamGrid">
+                <!-- Team members rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CLIENTS
+    ============================================================ -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-handshake"></i> Macaamiisheena</div>
+                <h2><i class="fas fa-building"></i> Waxay Ku Kalsoon Yihiin Kulmis</h2>
+                <p>Macaamiisheenna ku kalsoon shirkadeena</p>
+            </div>
+            <div class="clients-grid">
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-store"></i></div>
+                    <div class="logo-name">SomaliBiz</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-building"></i></div>
+                    <div class="logo-name">Hodan Group</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-microchip"></i></div>
+                    <div class="logo-name">TechStart</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="logo-name">GreenEnergy</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="logo-name">HealthPlus</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="logo-name">EduFuture</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-coins"></i></div>
+                    <div class="logo-name">FinTrust</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+                <div class="client-logo">
+                    <div class="logo-icon"><i class="fas fa-tractor"></i></div>
+                    <div class="logo-name">AgriTech</div>
+                    <div class="trust-badge"><i class="fas fa-check-circle"></i> Trusted</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CASE STUDIES
+    ============================================================ -->
+    <section class="case-studies" id="case-studies">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-briefcase"></i> Case Studies</div>
+                <h2><i class="fas fa-search"></i> Mashruucyo La Soo Bandhigay</h2>
+                <p>Waxaan soo dhisnay xalal loogu talagalay ganacsiyada kala duwan</p>
+            </div>
+            <div class="case-grid">
+                <div class="case-item">
+                    <div class="case-img"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="case-body">
+                        <span class="tag">E-commerce</span>
+                        <h4>SomaliBiz Online Store</h4>
+                        <p>Waxaan u dhisnay dukaan dhijitaal ah oo leh 50% korodhka iibka.</p>
+                        <a href="#" class="case-link">Akhri wax dheeri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="case-item">
+                    <div class="case-img"><i class="fas fa-hospital"></i></div>
+                    <div class="case-body">
+                        <span class="tag">HealthTech</span>
+                        <h4>HealthPlus App</h4>
+                        <p>App caafimaad oo leh 10,000+ isticmaale oo soo dejistay.</p>
+                        <a href="#" class="case-link">Akhri wax dheeri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="case-item">
+                    <div class="case-img"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="case-body">
+                        <span class="tag">Education</span>
+                        <h4>EduFuture Platform</h4>
+                        <p>Nidaam waxbarasho online ah oo leh 5,000+ arday.</p>
+                        <a href="#" class="case-link">Akhri wax dheeri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    TESTIMONIALS
+    ============================================================ -->
+    <section class="testimonials-slider">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-quote-left"></i> Talooyin</div>
+                <h2><i class="fas fa-star"></i> Waxay Naga Yiraahdeen</h2>
+                <p>Macaamiisheena waxay ka dhahaan Kulmis Technology</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>Kulmis Tech waxay naga caawiyeen inaan u beddelno ganacsigeena dhijitaal ahaan. Tayo iyo kalsooni.</blockquote>
+                    <div class="author">
+                        <div class="avatar">
+                            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);">AA</div>
+                        </div>
+                        <div class="info">
+                            <div class="name">Ahmed Ali</div>
+                            <div class="role">CEO, SomaliBiz</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>Waxaan ku qanacsanahay adeegyada Kulmis. Khibrad iyo xirfad heer sare ah.</blockquote>
+                    <div class="author">
+                        <div class="avatar">
+                            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#7c3aed,#2563eb);">FM</div>
+                        </div>
+                        <div class="info">
+                            <div class="name">Fadumo Mohamed</div>
+                            <div class="role">Manager, Hodan Group</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>Waxaan dareemay inaan la jiro koox khabiir ah oo diyaar u ah inay naga caawiyaan mar kasta.</blockquote>
+                    <div class="author">
+                        <div class="avatar">
+                            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);">MJ</div>
+                        </div>
+                        <div class="info">
+                            <div class="name">Mohamed Jama</div>
+                            <div class="role">Founder, TechStart</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    BLOG
+    ============================================================ -->
+    <section class="blog" id="blog">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-pen-fancy"></i> Qoraalo</div>
+                <h2><i class="fas fa-newspaper"></i> Waxaan qornay blog-keena</h2>
+                <p>Waxaan wadaagnaa khibraddeena, aragtideena, iyo waxa aan baranay safarkeenna</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-robot"></i></div>
+                    <div class="blog-body">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar-alt"></i> 15 May 2026</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-user"></i> Fadumo Mohamed</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-clock"></i> 5 daqiiqo</span>
+                        </div>
+                        <h4>Sidee AI u beddeleysaa ganacsiga yaryar ee Soomaaliya?</h4>
+                        <p>Waxaan u baahanahay inaan ka hadalno sida tiknoolajiyada cusub, gaar ahaan AI, ay uga caawin karto ganacsatada yaryar inay koraan...</p>
+                        <a href="#" class="read-more">Sii akhri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <div class="blog-body">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar-alt"></i> 28 Abriil 2026</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-user"></i> Abdiwali Mohamed</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-clock"></i> 7 daqiiqo</span>
+                        </div>
+                        <h4>Xogta kumeelgaarka ah (Cloud) — Ma u baahan tahay ganacsigaagu?</h4>
+                        <p>Inta badan ganacsiyada waaweyn iyo kuwa yaryarba waxay u soo wareegayaan xogta kumeelgaarka ah, laakiin ma runtaa inay tahay wax ku habboon dhammaan?</p>
+                        <a href="#" class="read-more">Sii akhri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-laptop-code"></i></div>
+                    <div class="blog-body">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar-alt"></i> 10 Abriil 2026</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-user"></i> Mohamed Ali</span>
+                            <span class="dot">•</span>
+                            <span><i class="far fa-clock"></i> 4 daqiiqo</span>
+                        </div>
+                        <h4>5 khalad oo ay ganacsatadu ku sameeyaan marka ay dhisaan website</h4>
+                        <p>Website-ka ayaa ah wejiga ganacsiga dhijitaalka ah, laakiin qaladaad yar ayaa sababi kara lumitaan weyn. Waxaan soo ururiyay 5 khalad oo caadi ah...</p>
+                        <a href="#" class="read-more">Sii akhri <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CTA BANNER
+    ============================================================ -->
+    <section class="cta-banner">
+        <div class="container">
+            <h2>Diyaar u tahay inaad bilowdo?</h2>
+            <p>Nagala soo xiriir si aan uga wada hadalno mashruucaaga ama baahidaada tiknoolajiyadeed.</p>
+            <button class="btn-cta" onclick="window.location.href='#contact'">
+                <i class="fas fa-paper-plane"></i> Nagala soo xiriir hadda
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FAQ
+    ============================================================ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header center">
+                <div class="tag"><i class="fas fa-question-circle"></i> FAQ</div>
+                <h2><i class="fas fa-question"></i> Su'aalaha Inta Badan La Weydiiyo</h2>
+                <p>Jawaabaha su'aalaha ugu muhiimsan</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Maxaa laga helaa Kulmis Technology?</span>
+                        <span class="icon-wrap"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">Waxaan bixinaa xalal dhijitaal ah oo dhammaystiran, oo ay ku jiraan software development, cloud computing, cybersecurity, mobile &amp; web apps, iyo AI solutions.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Sideen u bilaabi karaa mashruuc cusub?</span>
+                        <span class="icon-wrap"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">Waxaad nagala soo xiriiri kartaa taleefoonka ama email-ka, waxaanu qabaneynaa kulan bilaash ah si aan uga wada hadalno baahidaada.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Intee ayay qaadataa in mashruuc la dhammeeyo?</span>
+                        <span class="icon-wrap"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">Waxay ku xiran tahay baaxadda mashruuca, laakiin inteeda badan waxaanu dhammeeynaa 4-12 usbuuc gudahood.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Ma bixisaa taageero ka dib marka mashruuca la dhammeeyo?</span>
+                        <span class="icon-wrap"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">Haa, waxaanu bixinaa taageero joogto ah iyo dayactir ka dib marka mashruuca la dhammeeyo.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Waa kuwee macaamiisheena?</span>
+                        <span class="icon-wrap"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">Waxaan la shaqaynaa ganacsiyada yaryar, kuwa dhexdhexaadka ah, iyo kuwa waaweyn oo ka kala yimid dhamaan qaybaha ganacsiga.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    NEWSLETTER
+    ============================================================ -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3><i class="fas fa-envelope-open-text" style="margin-right:10px;"></i> Ku Biir Newsletter-keena</h3>
+                <p>Hel wararka ugu dambeeya, waxqabadyo cusub, iyo xalal dhijitaal ah</p>
+                <form class="news-form" onsubmit="alert('Waad ku biirtay Newsletter-keena!'); return false;">
+                    <input type="email" placeholder="Email-kaaga" required />
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Ku Biir</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CONTACT
+    ============================================================ -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="info">
+                    <h2>Nagala soo xiriir</h2>
+                    <p>Haddii aad rabto inaad ka hadasho mashruuc ama aad rabto faahfaahin dheeri ah, nagala soo xiriir mar kasta.</p>
+                    <div class="details">
+                        <div class="item"><i class="fas fa-envelope"></i><a href="mailto:kulmistech@gmail.so">kulmistech@gmail.so</a></div>
+                        <div class="item"><i class="fas fa-phone-alt"></i><a href="tel:+252615020879">+252 615020879</a></div>
+                        <div class="item"><i class="fas fa-map-marker-alt"></i><span>Mogadishu, Somalia</span></div>
+                        <div class="item"><i class="fas fa-clock"></i><span>Isniin–Jimco: 9AM – 6PM (EAT)</span></div>
+                    </div>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="form">
+                    <form onsubmit="alert('Fariintaada waa la soo diray! Waad ku mahadsan tahay.'); return false;">
+                        <div class="form-group"><label>Magaca</label><input type="text" placeholder="Magacaaga" required /></div>
+                        <div class="form-group"><label>Email-ka</label><input type="email" placeholder="Email-kaaga" required /></div>
+                        <div class="form-group"><label>Fariinta</label><textarea placeholder="Fariintaada..." required></textarea></div>
+                        <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Soo dir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    LIVE CHAT
+    ============================================================ -->
+    <div class="live-chat">
+        <button class="chat-btn" onclick="alert('Live chat support waa diyaar! Fadlan sug.')" aria-label="Open live chat">
+            <i class="fas fa-comment-dots"></i>
+            <span class="chat-notif">1</span>
+        </button>
+    </div>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer>
+        <div class="container">
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Shuruudaha</a>
+                <a href="#">Qarsoodi</a>
+                <a href="#">Taageero</a>
+                <a href="#">Bangi</a>
+                <a href="#contact">Xiriir</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 <strong>Kulmis Technology Company</strong> · <i class="fas fa-code" style="margin: 0 4px;"></i> Mogadishu, Somalia</p>
+                <div class="footer-badge">
+                    <span><i class="fas fa-shield-alt"></i> Amaan</span>
+                    <span><i class="fas fa-rocket"></i> Hal-abuur</span>
+                    <span><i class="fas fa-handshake"></i> Kalsooni</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // THEME TOGGLER
+        // ============================================================
+        (function initTheme() {
+            const toggle = document.getElementById('themeToggle');
+            const label = document.getElementById('themeLabel');
+
+            // Check localStorage or system preference
+            let savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                label.textContent = theme === 'dark' ? 'Dark' : 'Light';
+            }
+
+            setTheme(savedTheme);
+
+            toggle.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                setTheme(next);
+            });
+        })();
+
+        // ============================================================
+        // TEAM DATA
+        // ============================================================
+        const teamMembers = [{
+            name: 'Eng Abdiwali Mohamed',
+            role: 'CEO & Founder',
+            initials: 'AM',
+            isLeader: true,
+            gender: 'male',
+            photoUrl: 'Eng Abdiwali.jpeg',
+            social: { linkedin: '#', twitter: '#' }
+        }, {
+            name: 'Fadumo Mohamed',
+            role: 'CTO & Co-Founder',
+            initials: 'FM',
+            isLeader: false,
+            gender: 'female',
+            photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face',
+            social: { linkedin: '#', github: '#' }
+        }, {
+            name: 'Mohamed Ali Abdi',
+            role: 'Lead Developer',
+            initials: 'MA',
+            isLeader: false,
+            gender: 'male',
+            photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
+            social: { linkedin: '#', github: '#' }
+        }, {
+            name: 'Hawa Yusuf',
+            role: 'UX/UI Designer',
+            initials: 'HY',
+            isLeader: false,
+            gender: 'female',
+            photoUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face',
+            social: { linkedin: '#', dribbble: '#' }
+        }, {
+            name: 'Saacid Ahmed',
+            role: 'Data Analyst',
+            initials: 'SA',
+            isLeader: false,
+            gender: 'male',
+            photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+            social: { linkedin: '#', github: '#' }
+        }];
+
+        // ============================================================
+        // RENDER TEAM
+        // ============================================================
+        function renderTeam() {
+            const container = document.getElementById('teamGrid');
+            let html = '';
+
+            teamMembers.forEach(member => {
+                const leaderBadge = member.isLeader ?
+                    '<div class="leader-badge"><i class="fas fa-crown"></i> CEO & Founder</div>' :
+                    '';
+
+                const gradient = member.gender === 'female' ?
+                    'linear-gradient(135deg, #7c3aed, #2563eb)' :
+                    'linear-gradient(135deg, #1e3a5f, #2563eb)';
+
+                let socialHtml = '';
+                if (member.social.linkedin) {
+                    socialHtml += `<a href="${member.social.linkedin}"><i class="fab fa-linkedin-in"></i></a>`;
+                }
+                if (member.social.twitter) {
+                    socialHtml += `<a href="${member.social.twitter}"><i class="fab fa-twitter"></i></a>`;
+                }
+                if (member.social.github) {
+                    socialHtml += `<a href="${member.social.github}"><i class="fab fa-github"></i></a>`;
+                }
+                if (member.social.dribbble) {
+                    socialHtml += `<a href="${member.social.dribbble}"><i class="fab fa-dribbble"></i></a>`;
+                }
+
+                html += `
+                            <div class="team-member">
+                                <div class="member-photo">
+                                    <img src="${member.photoUrl}" alt="${member.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                                    <div class="photo-placeholder" style="display:none;background:${gradient};">${member.initials}</div>
+                                </div>
+                                ${leaderBadge}
+                                <h4>${member.name}</h4>
+                                <div class="role">${member.role}</div>
+                                <div class="social-links">
+                                    ${socialHtml}
+                                </div>
+                            </div>
+                        `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // NAVIGATION & UI HELPERS
+        // ============================================================
+        function toggleMenu() {
+            document.getElementById('mainNav').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            const nav = document.getElementById('mainNav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (nav.classList.contains('open')) {
+                if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+                    nav.classList.remove('open');
+                }
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Active nav link
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('header nav a:not(.btn-outline):not(.experience-nav)');
+
+        window.addEventListener('scroll', function() {
+            let current = '';
+            sections.forEach(section => {
+                const top = section.offsetTop - 120;
+                if (window.scrollY >= top) current = section.getAttribute('id');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const item = element.closest('.faq-item');
+            if (!item) return;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item.active').forEach(el => {
+                if (el !== item) el.classList.remove('active');
+            });
+            if (isActive) item.classList.remove('active');
+            else item.classList.add('active');
+        }
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter-stats .stat-item .number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                let current = 0;
+                const increment = Math.ceil(target / 40);
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= target) { current = target;
+                        clearInterval(interval); }
+                    counter.textContent = current;
+                }, 30);
+            });
+        }
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    counterObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const counterSection = document.querySelector('.counter-stats');
+        if (counterSection) counterObserver.observe(counterSection);
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        renderTeam();
+
+        console.log('✨ Kulmis Technology Company');
+        console.log('📧 kulmistech@gmail.so');
+        console.log('📞 +252 615020879');
+        console.log('📍 Mogadishu, Somalia');
+        console.log('👔 CEO-ga waxaa loo adeegsaday sawirkaaga "Eng Abdiwali.jpeg"');
+        console.log('👥 Kooxda kale waxaa loo adeegsaday sawirro Soomaali ah');
+        console.log('🏢 8 Macmiil oo ay ku kalsoon yihiin Kulmis');
+        console.log('🔘 Experience button-ka waxaa lagu daray navigation-ka');
+        console.log('🌙 Dark mode waa la dhisay oo meel sare la saaray');
+        console.log('❌ "Kulmis Experts" waa laga saaray dhammaan');
+    </script>
+</body>
+</html>
